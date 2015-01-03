@@ -1,9 +1,3 @@
-/* cannot get line through to show for completed items.. */
-.completed label {
-	color: #FF0000;
-	text-decoration: line-through;
-}
-
 .editing {
 	border-bottom: none;
 	padding: 0;

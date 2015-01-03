@@ -3,7 +3,6 @@ var todomvc = angular.module('todomvc', ['firebase']);
 todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, $firebase) {
 	var fireRef = new Firebase('https://firebasingtodos.firebaseio.com/');
 	$scope.todos = $firebase(fireRef).$asArray();
-	console.log($scope.todos)
 	$scope.newTodo = '';
 	$scope.editedTodo = null;
 
@@ -18,7 +17,6 @@ todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, $firebase) {
 		});
 		$scope.totalCount = total;
 		$scope.remainingCount = remaining;
-		$scope.completedCount = total - remaining;
 		$scope.allChecked = remaining === 0;
 	}, true);
 
@@ -37,10 +35,10 @@ todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, $firebase) {
 
 	$scope.editTodo = function(todo){
 		$scope.editedTodo = todo;
-		console.log($scope.editedTodo)
 		$scope.originalTodo = angular.extend({}, $scope.editedTodo);
 	};
 
+	// update todo for changes we made
 	$scope.doneEditing = function(todo){
 		$scope.editedTodo = null;
 		var title = todo.title.trim();
@@ -55,26 +53,25 @@ todomvc.controller('TodoCtrl', function TodoCtrl($scope, $location, $firebase) {
 		$scope.todos.$remove(todo);
 	};
 
-	// $scope.toggleCompleted = function(id){
-	// 	var todo = $scope.todos[id];
-	// 	todo.completed = !todo.completed;
-	// 	$scope.todos.$save(id);
-	// };
+	// delete all todos that have been completed
+	$scope.clearCompletedTodos = function(){
+		angular.forEach($scope.todos, function(todo){
+			if (todo.completed){
+				$scope.todos.$remove(todo);
+			}
+		});
+	};
 
-	// $scope.clearCompletedTodos = function () {
-	// 	angular.forEach($scope.todos, function(todo){
-	// 		if (todo.completed){
-	// 			$scope.todos.$remove(todo);
-	// 		}
-	// 	});
-	// };
-
-	// $scope.markAll = function (allCompleted) {
-	// 	angular.forEach($scope.todos, function(todo){
-	// 		todo.completed = !allCompleted;
-	// 	});
-	// 	$scope.todos.$save();
-	// };
+	// toggle completion status for all todos
+	$scope.markAll = function(allCompleted){
+		console.log(allCompleted)
+		angular.forEach($scope.todos, function(todo){
+			todo.completed = allCompleted;
+			console.log(todo)
+			$scope.todos.$save(todo);
+		});
+		
+	};
 });
 
 

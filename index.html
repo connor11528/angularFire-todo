@@ -11,24 +11,27 @@
 		<div class='container' ng-controller="TodoCtrl">
 			<section class='row'>
 				<header>
-					<h1>todos</h1>
+					<h1 class='text-center'>What do you have to do?</h1>
 					<span><strong>{{remainingCount}}</strong> things todo</span>
 					<form ng-submit="addTodo()">
 						<input class='form-control' placeholder="What needs to be done?" ng-model="newTodo" autofocus>
 					</form>
 				</header>
 				<section ng-show="totalCount" ng-cloak>
-					<!-- Mark all todos as complete
+					<!-- Mark all todos as complete -->
 					<input type="checkbox" ng-model="allChecked" ng-click="markAll(allChecked)">
 					<label for="toggle-all">Mark all as complete</label>
-					-->
-					<h3>All todos</h3>
+					
+					<h3>All things todo</h3>
 					<p>Double-click to edit a todo</p>
 					<div class="list-group">
-						<div ng-repeat="todo in todos" class="list-group-item" ng-class="{completed: todo.completed, editing: todo == editedTodo}">
+						<div ng-repeat="todo in todos" class="list-group-item" ng-class="{editing: todo == editedTodo}">
 							<div class="view" ng-if='todo !== editedTodo'>
 								<input type="checkbox" ng-model="todo.completed" ng-change="todos.$save(todo)">
-								<label ng-dblclick="editTodo(todo)">{{todo.title}}</label>
+
+								<label ng-dblclick="editTodo(todo)" ng-if='todo.completed' ng-style="{'text-decoration': 'line-through'}">{{todo.title}}</label>
+								<label ng-dblclick="editTodo(todo)" ng-if='!todo.completed' ng-style="{'text-decoration': 'none'}">{{todo.title}}</label>
+
 								<button class='btn btn-danger pull-right' ng-click="removeTodo(todo)">X</button>
 							</div>
 							<form ng-submit="doneEditing(todo)" ng-if='todo == editedTodo'>
@@ -36,6 +39,7 @@
 							</form>
 						</div>
 					</div>
+					<div class='btn btn-default pull-right' ng-click='clearCompletedTodos()'>Clear completed todos</div>
 				</section>
 			</section>
 		</div>
