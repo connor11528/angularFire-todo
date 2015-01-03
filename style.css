@@ -1,0 +1,26 @@
+/* cannot get line through to show for completed items.. */
+.completed label {
+	color: #FF0000;
+	text-decoration: line-through;
+}
+
+.editing {
+	border-bottom: none;
+	padding: 0;
+}
+
+.editing .edit {
+	display: block;
+	width: 506px;
+	padding: 13px 17px 12px 17px;
+	margin: 0 0 0 43px;
+}
+
+.editing .view {
+	display: none;
+}
+
+.editing:last-child {
+	margin-bottom: -1px;
+}
+
